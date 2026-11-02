@@ -167,7 +167,7 @@ function errorText(error) {
   if (/email not confirmed/i.test(m))
     return "تأیید ایمیل در تنظیمات Supabase فعال است.";
   if (/row-level security|permission denied/i.test(m))
-    return "دسترسی دیتابیس محدود شده است؛ سیاست‌های امنیتی را بررسی کن.";
+    return "قوانین اجازه نمیدهند ،  سیاست‌های امنیتی را در نسخه های آینده درست میکنیم.";
   if (/does not exist|schema cache/i.test(m))
     return "جدول یا ستون موردنیاز پیدا نشد.";
   if (/Failed to fetch|NetworkError/i.test(m))
