@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
@@ -5,99 +6,22 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#7c3aed">
 <title>چت بچه‌ها 💜</title>
-<meta name="description" content="چت دوستانه و بازی‌های ساده">
+<meta name="description" content="چت‌روم و گفت‌وگوی دوستانه">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<style>
-:root {
-  --purple:#7c3aed;
-  --dark:#171326;
-  --panel:#211b35;
-  --text:#f7f3ff;
-  --muted:#b9afce;
-  --border:#3b3155;
-}
-* {box-sizing:border-box}
-body {
-  margin:0;background:var(--dark);color:var(--text);
-  font-family:Tahoma,Arial,sans-serif;line-height:1.8
-}
-button,input,select,textarea {font:inherit}
-button {
-  border:0;border-radius:12px;padding:10px 14px;
-  background:var(--purple);color:white;cursor:pointer
-}
-button:disabled {opacity:.6}
-input,select,textarea {
-  width:100%;padding:12px;border:1px solid var(--border);
-  border-radius:12px;background:#171326;color:white
-}
-label {display:block;margin:10px 0 4px}
-header {
-  padding:20px 12px;text-align:center;
-  background:linear-gradient(135deg,#7c3aed,#4c1d95)
-}
-header h1 {margin:0;font-size:26px}
-header p {margin:5px 0 0}
-main {max-width:850px;margin:auto;padding:12px}
-.panel {
-  background:var(--panel);border:1px solid var(--border);
-  border-radius:17px;padding:15px;margin:13px 0
-}
-h2,h3 {margin-top:0}
-.muted {color:var(--muted);font-size:13px}
-.row,.tabs {display:flex;gap:8px;flex-wrap:wrap}
-.row>* {flex:1;min-width:0}
-.tabs button {flex:1;min-width:100px}
-.secondary {background:#39304f}
-.danger {background:#a83252}
-.hidden {display:none!important}
-#status {
-  padding:11px;border-radius:10px;background:#302543;
-  margin:12px 0;overflow-wrap:anywhere
-}
-#chatBox {
-  height:300px;overflow-y:auto;padding:10px;
-  background:#171326;border:1px solid var(--border);
-  border-radius:13px
-}
-.message {
-  padding:9px 11px;margin:8px 0;
-  background:#302543;border-radius:12px;overflow-wrap:anywhere
-}
-.message.mine {background:#49317c}
-.message small {display:block;color:#d2c4ef;font-size:11px}
-.message p {margin:4px 0;white-space:pre-wrap}
-#usersList {display:grid;gap:8px}
-.userItem {
-  background:#302543;border:1px solid var(--border);
-  padding:9px;border-radius:10px;display:flex;
-  align-items:center;justify-content:space-between;gap:8px
-}
-#gameBoard {
-  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:8px;max-width:300px;margin:12px auto
-}
-.cell {height:80px;font-size:28px;background:#39304f}
-footer {text-align:center;padding:20px;color:var(--muted)}
-@media(max-width:480px) {
-  main {padding:9px}
-  .panel {padding:12px}
-  #chatBox {height:270px}
-}
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
+
 <header>
   <h1>💜 چت بچه‌ها</h1>
-  <p>گفت‌وگو و بازی دوستانه</p>
+  <p>جایی برای گفت‌وگو و دوستی</p>
 </header>
 
 <main>
-  <div id="status" role="status">در حال اتصال...</div>
+  <div id="status">در حال اتصال...</div>
 
   <section id="authPanel" class="panel">
     <h2>👋 خوش اومدی!</h2>
-    <p class="muted">وارد شو یا حساب بساز.</p>
     <div class="tabs">
       <button id="showLogin">ورود</button>
       <button id="showSignup" class="secondary">ثبت‌نام</button>
@@ -105,103 +29,110 @@ footer {text-align:center;padding:20px;color:var(--muted)}
 
     <form id="authForm">
       <div id="nicknameWrap" class="hidden">
-        <label for="nickname">نام نمایشی</label>
+        <label>نام نمایشی</label>
         <input id="nickname" maxlength="24" placeholder="نام مستعار">
       </div>
-      <label for="email">ایمیل</label>
-      <input id="email" type="email" required autocomplete="email">
-      <label for="password">رمز عبور</label>
-      <input id="password" type="password" required minlength="6"
-        autocomplete="current-password" placeholder="حداقل ۶ کاراکتر">
-      <button id="authSubmit" type="submit"
-        style="width:100%;margin-top:14px">ورود</button>
+      <label>ایمیل</label>
+      <input id="email" type="email" required>
+      <label>رمز عبور</label>
+      <input id="password" type="password" minlength="6" required>
+      <button id="authSubmit" type="submit">ورود</button>
     </form>
-    <p class="muted">اطلاعات شخصی و رمز عبورت رو در چت منتشر نکن.</p>
+    <p class="muted">اطلاعات شخصی خودت رو منتشر نکن.</p>
   </section>
 
   <section id="appPanel" class="hidden">
+
     <div class="panel">
-      <div class="row">
-        <div>
-          <strong>سلام، <span id="myNickname"></span> 💜</strong>
-          <div class="muted">خوش اومدی!</div>
+      <div class="profile-header">
+        <img id="myAvatar" class="avatar" alt="عکس پروفایل"
+          src="https://placehold.co/100x100/302543/ffffff?text=User">
+        <div class="profile-info">
+          <strong id="myNickname">کاربر</strong>
+          <label class="upload-label" for="avatarInput">
+            📷 تغییر عکس پروفایل
+          </label>
+          <input id="avatarInput" type="file"
+            accept="image/jpeg,image/png,image/webp" hidden>
         </div>
         <button id="logout" class="danger">خروج</button>
       </div>
     </div>
 
     <div class="panel">
+      <h2>🏠 چت‌روم‌ها</h2>
+      <p class="muted">یک روم بساز یا به روم‌های موجود بپیوند.</p>
+
+      <form id="createRoomForm">
+        <label>نام چت‌روم جدید</label>
+        <input id="roomName" maxlength="40"
+          minlength="2" placeholder="مثلاً دوستان برنامه‌نویس"
+          required>
+        <button type="submit" id="createRoomButton">
+          ➕ ساخت چت‌روم
+        </button>
+      </form>
+
+      <div class="row">
+        <h3>📋 روم‌های موجود</h3>
+        <button id="refreshRooms" class="secondary">🔄 تازه‌سازی</button>
+      </div>
+
+      <div id="roomsList">
+        <p class="muted">در حال بارگذاری...</p>
+      </div>
+    </div>
+
+    <div class="panel">
       <h2>💬 گفت‌وگو</h2>
-      <div class="tabs">
-        <button id="publicTab">چت عمومی</button>
-        <button id="privateTab" class="secondary">چت خصوصی</button>
+      <div id="chatTitle" class="chat-title">
+        هنوز وارد رومی نشدی.
       </div>
-
-      <div id="privateOptions" class="hidden">
-        <label for="recipient">انتخاب کاربر</label>
-        <select id="recipient">
-          <option value="">یک کاربر انتخاب کن</option>
-        </select>
-      </div>
-
-      <p id="chatDescription" class="muted">پیام‌های عمومی</p>
       <div id="chatBox" aria-live="polite">
-        <p class="muted">در حال بارگذاری پیام‌ها...</p>
+        <p class="muted">برای شروع، یک روم انتخاب کن.</p>
       </div>
 
       <form id="messageForm">
-        <label for="messageInput">پیامت</label>
-        <textarea id="messageInput" maxlength="1000" rows="3"
-          required placeholder="پیامت رو بنویس..."></textarea>
-        <button id="sendButton" type="submit"
-          style="width:100%;margin-top:8px">ارسال پیام</button>
+        <label>پیام شما</label>
+        <textarea id="messageInput" rows="3"
+          maxlength="1000" placeholder="پیامت رو بنویس..."
+          required disabled></textarea>
+        <button id="sendButton" type="submit" disabled>
+          ارسال پیام
+        </button>
       </form>
-
-      <button id="refreshChat" class="secondary"
-        style="width:100%;margin-top:8px">🔄 تازه‌سازی پیام‌ها</button>
+      <button id="refreshChat" class="secondary">
+        🔄 تازه‌سازی پیام‌ها
+      </button>
     </div>
 
     <div class="panel">
       <h2>👥 کاربران</h2>
-      <p class="muted">برای چت خصوصی یک کاربر رو انتخاب کن.</p>
+      <p class="muted">برای شروع گفت‌وگوی خصوصی یک کاربر را انتخاب کن.</p>
       <div id="usersList">در حال بارگذاری...</div>
     </div>
-        <div class="panel">
-      <h2>🎮 بازی‌ها</h2>
-      <div class="tabs">
-        <button id="rpsTab">سنگ، کاغذ، قیچی</button>
-        <button id="tttTab" class="secondary">دوز</button>
+
+    <div class="panel">
+      <h2>🔒 چت خصوصی</h2>
+      <div id="privateTitle" class="chat-title">
+        هنوز کاربری انتخاب نکردی.
       </div>
-      <div id="rpsGame">
-        <h3>✊ سنگ، کاغذ، قیچی</h3>
-        <p id="rpsResult">یکی رو انتخاب کن!</p>
-        <div class="row">
-          <button data-rps="سنگ">✊ سنگ</button>
-          <button data-rps="کاغذ">✋ کاغذ</button>
-          <button data-rps="قیچی">✌️ قیچی</button>
-        </div>
-      </div>
-      <div id="tttGame" class="hidden">
-        <h3>⭕ دوز</h3>
-        <p id="tttResult">نوبت X است.</p>
-        <div id="gameBoard"></div>
-        <button id="resetTtt" class="secondary" style="width:100%">
-          شروع دوباره
-        </button>
-      </div>
+      <button id="backRooms" class="secondary">
+        بازگشت به چت‌روم‌ها
+      </button>
     </div>
 
     <div class="panel">
       <h3>🛡️ امنیت</h3>
       <p class="muted">
-        اطلاعات شخصی مثل شماره تلفن، آدرس و رمز عبور رو منتشر نکن.
-        اگر کسی آزارت داد، از یک فرد مورداعتماد کمک بگیر.
+        شماره تلفن، آدرس، رمز عبور و اطلاعات حساس خودت رو منتشر نکن.
+        در صورت مشاهده رفتار آزاردهنده از فرد مورداعتماد کمک بگیر.
       </p>
     </div>
   </section>
 </main>
 
-<footer>ساخته‌شده با 💜</footer>
+<footer>چت بچه‌ها 💜</footer>
 
 <script>
 "use strict";
@@ -210,51 +141,43 @@ const SUPABASE_URL = "https://woiltlzexmovakoeteps.supabase.co";
 const SUPABASE_KEY = "sb_publishable_4fSCwF4-byicuolVU-CilA_aLexDpcA";
 
 const $ = id => document.getElementById(id);
-let db = null;
+const db = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
 let currentUser = null;
 let currentProfile = null;
 let authMode = "login";
-let chatMode = "public";
-let selectedRecipient = "";
-let loadingMessages = false;
-let tttCells = Array(9).fill("");
-let tttTurn = "X";
-let tttFinished = false;
+let currentRoom = null;
+let privateUser = null;
+let chatMode = "room";
+let busy = false;
 
 function status(message) {
   $("status").textContent = message;
 }
 
-function explainError(error) {
-  const m = String(error?.message || error || "خطای نامشخص");
-
+function errorText(error) {
+  const m = String(error?.message || error || "");
   if (/Invalid login credentials/i.test(m))
     return "ایمیل یا رمز عبور اشتباه است.";
   if (/User already registered/i.test(m))
     return "این ایمیل قبلاً ثبت‌نام شده است.";
   if (/email not confirmed/i.test(m))
-    return "تأیید ایمیل در تنظیمات پروژه فعال است.";
-  if (/Failed to fetch|NetworkError|fetch failed/i.test(m))
-    return "خطای اتصال؛ اینترنت، آدرس پروژه و کتابخانه را بررسی کن.";
-  if (/row-level security|permission denied|not allowed/i.test(m))
-    return "دسترسی جدول توسط سیاست‌های امنیتی محدود شده است.";
-  if (/relation .* does not exist|Could not find the table/i.test(m))
+    return "تأیید ایمیل در تنظیمات Supabase فعال است.";
+  if (/row-level security|permission denied/i.test(m))
+    return "دسترسی دیتابیس محدود شده است؛ سیاست‌های امنیتی را بررسی کن.";
+  if (/does not exist|schema cache/i.test(m))
     return "جدول یا ستون موردنیاز پیدا نشد.";
-
-  return m;
+  if (/Failed to fetch|NetworkError/i.test(m))
+    return "خطای اتصال اینترنت یا Supabase.";
+  return m || "خطای نامشخص";
 }
 
-function ensureClient() {
-  if (!window.supabase)
-    throw new Error("کتابخانه Supabase بارگذاری نشده است.");
-
-  if (!db) {
-    db = window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY
-    );
-  }
-  return db;
+function showApp(value) {
+  $("authPanel").classList.toggle("hidden", value);
+  $("appPanel").classList.toggle("hidden", !value);
 }
 
 function showAuth(mode) {
@@ -264,70 +187,70 @@ function showAuth(mode) {
     mode === "signup" ? "ساخت حساب" : "ورود";
   $("showLogin").classList.toggle("secondary", mode !== "login");
   $("showSignup").classList.toggle("secondary", mode !== "signup");
-  $("password").autocomplete =
-    mode === "signup" ? "new-password" : "current-password";
 }
 
 $("showLogin").onclick = () => showAuth("login");
 $("showSignup").onclick = () => showAuth("signup");
 
-function showApp(value) {
-  $("authPanel").classList.toggle("hidden", value);
-  $("appPanel").classList.toggle("hidden", !value);
-}
-
 async function loadProfile(user, nickname = "") {
-  const { data, error } = await db
+  const {data,error} = await db
     .from("profiles")
-    .select("id,nickname")
-    .eq("id", user.id)
+    .select("id,nickname,avatar_url")
+    .eq("id",user.id)
     .maybeSingle();
 
   if (error) throw error;
   if (data) return data;
 
-  const name = nickname || "کاربر" + user.id.slice(0, 5);
+  const name = nickname || "کاربر" + user.id.slice(0,5);
 
-  const { data: created, error: insertError } = await db
+  const {data:created,error:insertError} = await db
     .from("profiles")
-    .insert({ id:user.id, nickname:name })
-    .select("id,nickname")
+    .insert({id:user.id,nickname:name})
+    .select("id,nickname,avatar_url")
     .single();
 
   if (insertError) throw insertError;
   return created;
 }
 
-async function enterApp(user, nickname = "") {
+function setAvatar(url) {
+  $("myAvatar").src = url ||
+    "https://placehold.co/100x100/302543/ffffff?text=User";
+}
+
+async function enterApp(user,nickname = "") {
   currentUser = user;
   showApp(true);
   status("در حال بارگذاری حساب...");
 
   try {
-    currentProfile = await loadProfile(user, nickname);
+    currentProfile = await loadProfile(user,nickname);
     $("myNickname").textContent = currentProfile.nickname;
+    setAvatar(currentProfile.avatar_url);
+    await loadRooms();
     await loadProfiles();
-    await loadMessages();
-    status("حساب آماده است 💜");
-  } catch (error) {
-    status("خطای بارگذاری حساب: " + explainError(error));
+    status("خوش اومدی 💜");
+  } catch(error) {
+    status("خطا: " + errorText(error));
   }
 }
 
 async function leaveApp() {
   currentUser = null;
   currentProfile = null;
-  selectedRecipient = "";
+  currentRoom = null;
+  privateUser = null;
+  chatMode = "room";
   $("chatBox").replaceChildren();
+  $("roomsList").replaceChildren();
   $("usersList").replaceChildren();
-  $("recipient").replaceChildren();
   showApp(false);
 }
 
 async function init() {
   try {
-    ensureClient();
-    const { data, error } = await db.auth.getSession();
+    const {data,error} = await db.auth.getSession();
     if (error) throw error;
 
     if (data.session?.user) {
@@ -336,24 +259,12 @@ async function init() {
       showApp(false);
       status("وارد شو یا حساب بساز 💜");
     }
-
-    db.auth.onAuthStateChange((_event, session) => {
-      setTimeout(async () => {
-        if (session?.user && !currentUser) {
-          await enterApp(session.user);
-        } else if (!session?.user && currentUser) {
-          await leaveApp();
-          status("از حساب خارج شدی.");
-        }
-      }, 0);
-    });
-  } catch (error) {
-    showApp(false);
-    status("خطای اتصال: " + explainError(error));
+  } catch(error) {
+    status("خطای اتصال: " + errorText(error));
   }
 }
 
-$("authForm").addEventListener("submit", async event => {
+$("authForm").onsubmit = async event => {
   event.preventDefault();
 
   const email = $("email").value.trim();
@@ -361,7 +272,7 @@ $("authForm").addEventListener("submit", async event => {
   const nickname = $("nickname").value.trim();
 
   if (authMode === "signup" && nickname.length < 2) {
-    status("نام نمایشی باید حداقل ۲ حرف داشته باشد.");
+    status("نام نمایشی باید حداقل ۲ حرف باشد.");
     return;
   }
 
@@ -369,173 +280,375 @@ $("authForm").addEventListener("submit", async event => {
   status("در حال بررسی حساب...");
 
   try {
-    ensureClient();
-
     if (authMode === "signup") {
-      const { data, error } = await db.auth.signUp({
-        email,
-        password
+      const {data,error} = await db.auth.signUp({
+        email,password
       });
       if (error) throw error;
 
       if (!data.session) {
-        status("حساب ساخته شد؛ برای ورود، تنظیم تأیید ایمیل را بررسی کن.");
+        status("حساب ساخته شد؛ وضعیت تأیید ایمیل را بررسی کن.");
         return;
       }
-
-      currentUser = data.user;
-      currentProfile = await loadProfile(data.user, nickname);
-      await enterApp(data.user, nickname);
-      status("حساب ساخته شد! 💜");
+      await enterApp(data.user,nickname);
     } else {
-      const { data, error } = await db.auth.signInWithPassword({
-        email,
-        password
+      const {data,error} = await db.auth.signInWithPassword({
+        email,password
       });
       if (error) throw error;
       await enterApp(data.user);
     }
-  } catch (error) {
-    status("خطای حساب: " + explainError(error));
+  } catch(error) {
+    status("خطای حساب: " + errorText(error));
   } finally {
     $("authSubmit").disabled = false;
   }
-});
+};
 
 $("logout").onclick = async () => {
   try {
-    const { error } = await db.auth.signOut();
+    const {error} = await db.auth.signOut();
     if (error) throw error;
     await leaveApp();
-    status("با موفقیت خارج شدی.");
-  } catch (error) {
-    status(explainError(error));
+    status("از حساب خارج شدی.");
+  } catch(error) {
+    status(errorText(error));
   }
 };
 
+/* PROFILE PHOTO */
+
+$("avatarInput").onchange = async () => {
+  const file = $("avatarInput").files[0];
+  if (!file || !currentUser) return;
+
+  const allowed = ["image/jpeg","image/png","image/webp"];
+  if (!allowed.includes(file.type)) {
+    status("فقط عکس JPG، PNG یا WEBP مجاز است.");
+    return;
+  }
+
+  if (file.size > 3 * 1024 * 1024) {
+    status("حجم عکس باید کمتر از ۳ مگابایت باشد.");
+    return;
+  }
+
+  status("در حال آپلود عکس...");
+
+  try {
+    const ext = file.type === "image/png" ? "png" :
+      file.type === "image/webp" ? "webp" : "jpg";
+
+    const path = currentUser.id + "/avatar." + ext;
+
+    const {error:uploadError} = await db.storage
+      .from("avatars")
+      .upload(path,file,{upsert:true,contentType:file.type});
+
+    if (uploadError) throw uploadError;
+
+    const {data} = db.storage.from("avatars").getPublicUrl(path);
+    const url = data.publicUrl + "?v=" + Date.now();
+
+    const {error:updateError} = await db
+      .from("profiles")
+      .update({avatar_url:url})
+      .eq("id",currentUser.id);
+
+    if (updateError) throw updateError;
+
+    currentProfile.avatar_url = url;
+    setAvatar(url);
+    status("عکس پروفایل ذخیره شد! 💜");
+  } catch(error) {
+    status("خطای آپلود: " + errorText(error));
+  } finally {
+    $("avatarInput").value = "";
+  }
+};
+
+/* ROOMS */
+
+async function loadRooms() {
+  if (!currentUser) return;
+
+  const list = $("roomsList");
+  list.textContent = "در حال بارگذاری روم‌ها...";
+
+  try {
+    const {data:rooms,error} = await db
+      .from("chat_rooms")
+      .select("id,name,created_by,created_at")
+      .order("created_at",{ascending:false})
+      .limit(100);
+
+    if (error) throw error;
+
+    const {data:members,error:memberError} = await db
+      .from("chat_room_members")
+      .select("room_id,user_id");
+
+    if (memberError) throw memberError;
+
+    const memberIds = new Set(
+      (members || [])
+        .filter(m => m.user_id === currentUser.id)
+        .map(m => String(m.room_id))
+    );
+
+    list.replaceChildren();
+
+    if (!rooms?.length) {
+      list.textContent = "هنوز چت‌رومی ساخته نشده.";
+      return;
+    }
+
+    rooms.forEach(room => {
+      const item = document.createElement("div");
+      item.className = "room-item";
+
+      const info = document.createElement("div");
+      info.className = "room-info";
+
+      const name = document.createElement("strong");
+      name.textContent = "🏠 " + room.name;
+
+      const detail = document.createElement("small");
+      detail.textContent = "شناسه روم: " + room.id;
+
+      info.append(name,detail);
+
+      const button = document.createElement("button");
+      const joined = memberIds.has(String(room.id));
+
+      button.textContent = joined ? "ورود به روم" : "عضویت";
+      button.className = joined ? "secondary" : "";
+
+      button.onclick = async () => {
+        if (joined) {
+          await openRoom(room);
+        } else {
+          await joinRoom(room);
+        }
+      };
+
+      item.append(info,button);
+      list.appendChild(item);
+    });
+  } catch(error) {
+    list.textContent = "خطا: " + errorText(error);
+  }
+}
+
+$("createRoomForm").onsubmit = async event => {
+  event.preventDefault();
+
+  const name = $("roomName").value.trim();
+  if (name.length < 2 || name.length > 40) {
+    status("نام روم باید بین ۲ تا ۴۰ حرف باشد.");
+    return;
+  }
+
+  $("createRoomButton").disabled = true;
+  status("در حال ساخت روم...");
+
+  try {
+    const {data:room,error} = await db
+      .from("chat_rooms")
+      .insert({
+        name,
+        created_by:currentUser.id
+      })
+      .select("id,name,created_by,created_at")
+      .single();
+
+    if (error) throw error;
+
+    const {error:joinError} = await db
+      .from("chat_room_members")
+      .insert({
+        room_id:room.id,
+        user_id:currentUser.id
+      });
+
+    if (joinError) throw joinError;
+
+    $("roomName").value = "";
+    await loadRooms();
+    await openRoom(room);
+    status("چت‌روم ساخته شد! 🎉");
+  } catch(error) {
+    status("خطای ساخت روم: " + errorText(error));
+  } finally {
+    $("createRoomButton").disabled = false;
+  }
+};
+
+async function joinRoom(room) {
+  try {
+    const {error} = await db
+      .from("chat_room_members")
+      .insert({
+        room_id:room.id,
+        user_id:currentUser.id
+      });
+
+    if (error && !/duplicate key/i.test(error.message)) {
+      throw error;
+    }
+
+    await loadRooms();
+    await openRoom(room);
+    status("به روم پیوستی! 💜");
+  } catch(error) {
+    status("خطای عضویت: " + errorText(error));
+  }
+}
+
+async function openRoom(room) {
+  currentRoom = room;
+  privateUser = null;
+  chatMode = "room";
+
+  $("chatTitle").textContent = "🏠 " + room.name;
+  $("messageInput").disabled = false;
+  $("sendButton").disabled = false;
+
+  await loadMessages();
+}
+
+$("refreshRooms").onclick = loadRooms;
+
+/* USERS AND PRIVATE CHAT */
+
 async function loadProfiles() {
-  const { data, error } = await db
+  const {data,error} = await db
     .from("profiles")
-    .select("id,nickname")
+    .select("id,nickname,avatar_url")
     .order("nickname")
     .limit(100);
 
   if (error) throw error;
 
-  const profiles = (data || []).filter(p => p.id !== currentUser.id);
-  const select = $("recipient");
-  select.replaceChildren();
-
-  const first = document.createElement("option");
-  first.value = "";
-  first.textContent = "یک کاربر انتخاب کن";
-  select.appendChild(first);
-
   const list = $("usersList");
   list.replaceChildren();
 
+  const profiles = (data || []).filter(
+    p => p.id !== currentUser.id
+  );
+
   if (!profiles.length) {
-    list.textContent = "هنوز کاربر دیگری در فهرست نیست.";
+    list.textContent = "هنوز کاربر دیگری وجود ندارد.";
     return;
   }
 
   profiles.forEach(profile => {
-    const option = document.createElement("option");
-    option.value = profile.id;
-    option.textContent = profile.nickname;
-    select.appendChild(option);
-
     const item = document.createElement("div");
     item.className = "userItem";
 
-    const name = document.createElement("span");
+    const info = document.createElement("div");
+    info.className = "user-info";
+
+    const avatar = document.createElement("img");
+    avatar.className = "avatar small-avatar";
+    avatar.src = profile.avatar_url ||
+      "https://placehold.co/80x80/302543/ffffff?text=User";
+
+    const name = document.createElement("strong");
     name.textContent = profile.nickname;
+
+    info.append(avatar,name);
 
     const button = document.createElement("button");
     button.textContent = "پیام خصوصی";
-    button.onclick = () => {
-      select.value = profile.id;
-      selectedRecipient = profile.id;
-      setChatMode("private");
-    };
+    button.onclick = () => openPrivate(profile);
 
-    item.append(name, button);
+    item.append(info,button);
     list.appendChild(item);
   });
 }
 
-function setChatMode(mode) {
-  chatMode = mode;
-  $("privateOptions").classList.toggle("hidden", mode !== "private");
-  $("publicTab").classList.toggle("secondary", mode !== "public");
-  $("privateTab").classList.toggle("secondary", mode !== "private");
-  $("chatDescription").textContent = mode === "public"
-    ? "پیام‌های عمومی"
-    : "گفت‌وگوی خصوصی";
+async function openPrivate(profile) {
+  privateUser = profile;
+  currentRoom = null;
+  chatMode = "private";
 
-  loadMessages();
+  $("privateTitle").textContent =
+    "🔒 گفت‌وگو با " + profile.nickname;
+  $("chatTitle").textContent =
+    "🔒 گفت‌وگوی خصوصی با " + profile.nickname;
+
+  $("messageInput").disabled = false;
+  $("sendButton").disabled = false;
+
+  await loadMessages();
 }
 
-$("publicTab").onclick = () => setChatMode("public");
-$("privateTab").onclick = () => setChatMode("private");
+$("backRooms").onclick = () => {
+  chatMode = "room";
+  privateUser = null;
+  currentRoom = null;
 
-$("recipient").onchange = () => {
-  selectedRecipient = $("recipient").value;
-  loadMessages();
+  $("chatTitle").textContent = "یک چت‌روم انتخاب کن.";
+  $("messageInput").disabled = true;
+  $("sendButton").disabled = true;
+  $("chatBox").textContent = "برای شروع، یک روم انتخاب کن.";
 };
 
+/* MESSAGES */
+
 async function loadMessages() {
-  if (!currentUser || loadingMessages) return;
-  loadingMessages = true;
+  if (!currentUser || busy) return;
+  if (chatMode === "room" && !currentRoom) return;
+  if (chatMode === "private" && !privateUser) return;
+
+  busy = true;
 
   try {
-    const { data, error } = await db
-      .from("messages")
-      .select("id,body,created_at,user_id,recipient_id")
-      .order("created_at", { ascending:true })
+    let query = db.from("messages")
+      .select("id,body,created_at,user_id,recipient_id,room_id");
+
+    if (chatMode === "room") {
+      query = query.eq("room_id",currentRoom.id);
+    } else {
+      const other = privateUser.id;
+      query = query.is("room_id",null)
+        .or(
+          "and(user_id.eq." + currentUser.id +
+          ",recipient_id.eq." + other + ")," +
+          "and(user_id.eq." + other +
+          ",recipient_id.eq." + currentUser.id + ")"
+        );
+    }
+
+    const {data:messages,error} = await query
+      .order("created_at",{ascending:true})
       .limit(200);
 
     if (error) throw error;
 
-    let messages = data || [];
-
-    if (chatMode === "public") {
-      messages = messages.filter(m => m.recipient_id == null);
-    } else {
-      if (!selectedRecipient) {
-        $("chatBox").textContent = "برای چت خصوصی یک کاربر انتخاب کن.";
-        return;
-      }
-
-      messages = messages.filter(m =>
-        m.recipient_id != null &&
-        (
-          (m.user_id === currentUser.id &&
-           m.recipient_id === selectedRecipient) ||
-          (m.user_id === selectedRecipient &&
-           m.recipient_id === currentUser.id)
-        )
-      );
-    }
+    const ids = [...new Set(
+      (messages || []).map(m => m.user_id)
+    )];
 
     let names = {};
-    const ids = [...new Set(messages.map(m => m.user_id))];
-
     if (ids.length) {
-      const { data: people, error: peopleError } = await db
+      const {data:people,error:peopleError} = await db
         .from("profiles")
-        .select("id,nickname")
-        .in("id", ids);
+        .select("id,nickname,avatar_url")
+        .in("id",ids);
 
       if (peopleError) throw peopleError;
-      (people || []).forEach(p => names[p.id] = p.nickname);
+      (people || []).forEach(p => {
+        names[p.id] = p;
+      });
     }
 
     const box = $("chatBox");
     box.replaceChildren();
 
-    if (!messages.length) {
-      box.textContent = "هنوز پیامی نیست؛ اولین پیام رو بفرست! 💜";
+    if (!messages?.length) {
+      box.textContent = "هنوز پیامی وجود ندارد. اولین پیام رو بفرست! 💜";
       return;
     }
 
@@ -544,174 +657,82 @@ async function loadMessages() {
       item.className = "message" +
         (message.user_id === currentUser.id ? " mine" : "");
 
-      const author = document.createElement("small");
-      author.textContent =
-        (names[message.user_id] || "کاربر") +
-        " • " +
-        (message.created_at
-          ? new Date(message.created_at).toLocaleString("fa-IR")
-          : "");
+      const author = document.createElement("div");
+      author.className = "message-author";
+
+      const person = names[message.user_id] || {};
+      const avatar = document.createElement("img");
+      avatar.className = "avatar message-avatar";
+      avatar.src = person.avatar_url ||
+        "https://placehold.co/60x60/302543/ffffff?text=U";
+
+      const name = document.createElement("strong");
+      name.textContent = person.nickname || "کاربر";
+
+      author.append(avatar,name);
 
       const body = document.createElement("p");
       body.textContent = message.body;
-      item.append(author, body);
+
+      const date = document.createElement("small");
+      date.textContent = message.created_at
+        ? new Date(message.created_at).toLocaleString("fa-IR")
+        : "";
+
+      item.append(author,body,date);
       box.appendChild(item);
     });
 
     box.scrollTop = box.scrollHeight;
-  } catch (error) {
-    $("chatBox").textContent =
-      "خطای بارگذاری: " + explainError(error);
+  } catch(error) {
+    $("chatBox").textContent = "خطا: " + errorText(error);
   } finally {
-    loadingMessages = false;
+    busy = false;
   }
 }
 
-$("messageForm").addEventListener("submit", async event => {
+$("messageForm").onsubmit = async event => {
   event.preventDefault();
 
-  if (!currentUser) {
-    status("برای ارسال پیام اول وارد حسابت شو.");
-    return;
-  }
-
   const body = $("messageInput").value.trim();
-  if (!body) {
-    status("اول پیام رو بنویس.");
+  if (!body || !currentUser) return;
+
+  const row = {
+    user_id:currentUser.id,
+    body
+  };
+
+  if (chatMode === "room" && currentRoom) {
+    row.room_id = currentRoom.id;
+    row.recipient_id = null;
+  } else if (chatMode === "private" && privateUser) {
+    row.room_id = null;
+    row.recipient_id = privateUser.id;
+  } else {
+    status("اول یک روم یا کاربر انتخاب کن.");
     return;
-  }
-
-  let recipientId = null;
-
-  if (chatMode === "private") {
-    recipientId = selectedRecipient || $("recipient").value;
-    if (!recipientId) {
-      status("برای چت خصوصی یک کاربر انتخاب کن.");
-      return;
-    }
   }
 
   $("sendButton").disabled = true;
-  status("در حال ارسال پیام...");
 
   try {
-    const { error } = await db.from("messages").insert({
-      user_id:currentUser.id,
-      body:body,
-      recipient_id:recipientId
-    });
-
+    const {error} = await db.from("messages").insert(row);
     if (error) throw error;
 
     $("messageInput").value = "";
-    status("پیام ثبت شد؛ در حال بارگذاری...");
     await loadMessages();
-    status("درخواست ارسال موفق بود. اگر پیام دیده نمی‌شود، سیاست خواندن جدول را بررسی می‌کنیم.");
-  } catch (error) {
-    status("ارسال پیام ناموفق بود: " + explainError(error));
+    status("پیام ارسال شد 💜");
+  } catch(error) {
+    status("خطای ارسال: " + errorText(error));
   } finally {
     $("sendButton").disabled = false;
   }
-});
-
-$("refreshChat").onclick = async () => {
-  try {
-    await loadProfiles();
-    await loadMessages();
-    status("تازه‌سازی تمام شد.");
-  } catch (error) {
-    status("خطا: " + explainError(error));
-  }
 };
 
-/* سنگ، کاغذ، قیچی */
-document.querySelectorAll("[data-rps]").forEach(button => {
-  button.onclick = () => {
-    const choices = ["سنگ","کاغذ","قیچی"];
-    const player = button.dataset.rps;
-    const computer = choices[Math.floor(Math.random() * 3)];
-    let result = "مساوی شد! 🤝";
+$("refreshChat").onclick = loadMessages;
 
-    if (
-      (player === "سنگ" && computer === "قیچی") ||
-      (player === "کاغذ" && computer === "سنگ") ||
-      (player === "قیچی" && computer === "کاغذ")
-    ) result = "تو بردی! 🎉";
-    else if (player !== computer) result = "کامپیوتر برد!";
-
-    $("rpsResult").textContent =
-      "تو: " + player + " | کامپیوتر: " + computer + " — " + result;
-  };
-});
-
-$("rpsTab").onclick = () => {
-  $("rpsGame").classList.remove("hidden");
-  $("tttGame").classList.add("hidden");
-  $("rpsTab").classList.remove("secondary");
-  $("tttTab").classList.add("secondary");
-};
-
-$("tttTab").onclick = () => {
-  $("tttGame").classList.remove("hidden");
-  $("rpsGame").classList.add("hidden");
-  $("tttTab").classList.remove("secondary");
-  $("rpsTab").classList.add("secondary");
-};
-
-/* دوز */
-function renderTtt() {
-  const board = $("gameBoard");
-  board.replaceChildren();
-
-  tttCells.forEach((value, index) => {
-    const cell = document.createElement("button");
-    cell.className = "cell";
-    cell.textContent = value;
-
-    cell.onclick = () => {
-      if (value || tttFinished) return;
-      tttCells[index] = tttTurn;
-
-      const wins = [
-        [0,1,2],[3,4,5],[6,7,8],
-        [0,3,6],[1,4,7],[2,5,8],
-        [0,4,8],[2,4,6]
-      ];
-
-      const won = wins.some(line =>
-        line.every(i => tttCells[i] === tttTurn)
-      );
-
-      if (won) {
-        $("tttResult").textContent =
-          "بازیکن " + tttTurn + " برنده شد! 🎉";
-        tttFinished = true;
-      } else if (tttCells.every(Boolean)) {
-        $("tttResult").textContent = "مساوی شد! 🤝";
-        tttFinished = true;
-      } else {
-        tttTurn = tttTurn === "X" ? "O" : "X";
-        $("tttResult").textContent = "نوبت " + tttTurn + " است.";
-      }
-
-      renderTtt();
-    };
-
-    board.appendChild(cell);
-  });
-}
-
-function resetTtt() {
-  tttCells = Array(9).fill("");
-  tttTurn = "X";
-  tttFinished = false;
-  $("tttResult").textContent = "نوبت X است.";
-  renderTtt();
-}
-
-$("resetTtt").onclick = resetTtt;
-resetTtt();
 init();
 </script>
 </body>
 </html>
+
