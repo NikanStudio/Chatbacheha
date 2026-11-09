@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
@@ -6,173 +5,184 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#7c3aed">
 <title>چت بچه‌ها 💜</title>
-<meta name="description" content="چت‌روم و گفت‌وگوی دوستانه">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
 <header>
-  <h1>💜 چت بچه‌ها</h1>
-  <p>جایی برای گفت‌وگو و دوستی</p>
+<h1>💜 چت بچه‌ها</h1>
+<p>دنیای گفت‌وگو و سرگرمی</p>
 </header>
 
 <main>
-  <div id="status">در حال اتصال...</div>
+<div id="status">در حال اتصال...</div>
 
-  <section id="authPanel" class="panel">
-    <h2>👋 خوش اومدی!</h2>
-    <div class="tabs">
-      <button id="showLogin">ورود</button>
-      <button id="showSignup" class="secondary">ثبت‌نام</button>
-    </div>
+<section id="authPanel" class="panel">
+<h2>👋 خوش اومدی!</h2>
 
-    <form id="authForm">
-      <div id="nicknameWrap" class="hidden">
-        <label>نام نمایشی</label>
-        <input id="nickname" maxlength="24" placeholder="نام مستعار">
-      </div>
-      <label>ایمیل</label>
-      <input id="email" type="email" required>
-      <label>رمز عبور</label>
-      <input id="password" type="password" minlength="6" required>
-      <button id="authSubmit" type="submit">ورود</button>
-    </form>
-    <p class="muted">اطلاعات شخصی خودت رو منتشر نکن.</p>
-  </section>
+<div class="tabs">
+<button id="showLogin">ورود</button>
+<button id="showSignup" class="secondary">ثبت‌نام</button>
+</div>
 
-  <section id="appPanel" class="hidden">
+<form id="authForm">
+<div id="nicknameWrap" class="hidden">
+<label>نام نمایشی</label>
+<input id="nickname" maxlength="24">
+</div>
 
-    <div class="panel">
-      <div class="profile-header">
-        <img id="myAvatar" class="avatar" alt="عکس پروفایل"
-          src="https://placehold.co/100x100/302543/ffffff?text=User">
-        <div class="profile-info">
-          <strong id="myNickname">کاربر</strong>
-          <label class="upload-label" for="avatarInput">
-             به دلیل برخی قوانین، ، تا زمان نامشخص، نمی‌شود عکس گذاشت
-          </label>
-          <input id="avatarInput" type="file"
-            accept="image/jpeg,image/png,image/webp" hidden>
-        </div>
-        <button id="logout" class="danger">خروج</button>
-      </div>
-    </div>
+<label>ایمیل</label>
+<input id="email" type="email" required>
 
-    <div class="panel">
-      <h2>🏠 چت‌روم‌ها</h2>
-      <p class="muted">یک روم بساز یا به روم‌های موجود بپیوند.</p>
+<label>رمز عبور</label>
+<input id="password" type="password" required minlength="6">
 
-      <form id="createRoomForm">
-        <label>نام چت‌روم جدید</label>
-        <input id="roomName" maxlength="40"
-          minlength="2" placeholder="مثلاً دوستان برنامه‌نویس"
-          required>
-        <button type="submit" id="createRoomButton">
-          ➕ ساخت چت‌روم
-        </button>
-      </form>
+<button id="authSubmit" class="full">ورود</button>
+</form>
+</section>
 
-      <div class="row">
-        <h3>📋 روم‌های موجود</h3>
-        <button id="refreshRooms" class="secondary">🔄 تازه‌سازی</button>
-      </div>
+<section id="appPanel" class="hidden">
 
-      <div id="roomsList">
-        <p class="muted">در حال بارگذاری...</p>
-      </div>
-    </div>
+<div class="panel">
+<div class="profile-info">
+<div id="myAvatar" class="avatar">😀</div>
+<div>
+<strong id="myNickname"></strong>
+<p class="muted">عضو چت بچه‌ها 💜</p>
+</div>
+</div>
 
-    <div class="panel">
-      <h2>💬 گفت‌وگو</h2>
-      <div id="chatTitle" class="chat-title">
-        هنوز وارد رومی نشدی.
-      </div>
-      <div id="chatBox" aria-live="polite">
-        <p class="muted">برای شروع، یک روم انتخاب کن.</p>
-      </div>
+<h3>🎨 انتخاب آواتار</h3>
+<div id="avatarGrid" class="avatar-grid"></div>
+<button id="logout" class="danger full">خروج از حساب</button>
+</div>
 
-      <form id="messageForm">
-        <label>پیام شما</label>
-        <textarea id="messageInput" rows="3"
-          maxlength="1000" placeholder="پیامت رو بنویس..."
-          required disabled></textarea>
-        <button id="sendButton" type="submit" disabled>
-          ارسال پیام
-        </button>
-      </form>
-      <button id="refreshChat" class="secondary">
-        🔄 تازه‌سازی پیام‌ها
-      </button>
-    </div>
+<div class="panel">
+<h2>💬 چت خصوصی</h2>
+<label>انتخاب کاربر</label>
+<select id="recipient">
+<option value="">انتخاب کاربر</option>
+</select>
 
-    <div class="panel">
-      <h2>👥 کاربران</h2>
-      <p class="muted">برای شروع گفت‌وگوی خصوصی یک کاربر را انتخاب کن.</p>
-      <div id="usersList">در حال بارگذاری...</div>
-    </div>
+<div id="chatBox">پیامی وجود ندارد.</div>
 
-    <div class="panel">
-      <h2>🔒 چت خصوصی</h2>
-      <div id="privateTitle" class="chat-title">
-        هنوز کاربری انتخاب نکردی.
-      </div>
-      <button id="backRooms" class="secondary">
-        بازگشت به چت‌روم‌ها
-      </button>
-    </div>
+<form id="messageForm">
+<textarea id="messageInput" maxlength="1000"
+rows="3" placeholder="پیامت رو بنویس..." required></textarea>
+<button id="sendButton" class="full">ارسال پیام</button>
+</form>
+<button id="refreshChat" class="secondary full">🔄 تازه‌سازی</button>
+</div>
 
-    <div class="panel">
-      <h3>🛡️ امنیت</h3>
-      <p class="muted">
-        شماره تلفن، آدرس، رمز عبور و اطلاعات حساس خودت رو منتشر نکن.
-        در صورت مشاهده رفتار آزاردهنده از فرد مورداعتماد کمک بگیر.
-      </p>
-    </div>
-  </section>
+<div class="panel">
+<h2>🏠 چت‌روم‌ها</h2>
+
+<h3>ساخت چت‌روم</h3>
+<form id="createRoomForm">
+<input id="roomName" maxlength="35"
+placeholder="نام چت‌روم" required>
+<button class="full">➕ ساخت چت‌روم</button>
+</form>
+
+<hr>
+
+<h3>چت‌روم‌های موجود</h3>
+<div id="roomsList">در حال بارگذاری...</div>
+
+<div id="activeRoom" class="hidden">
+<hr>
+<h3 id="activeRoomName"></h3>
+<div id="roomMessages"></div>
+
+<form id="roomMessageForm">
+<textarea id="roomMessageInput" maxlength="1000"
+rows="3" placeholder="پیامت رو بنویس..." required></textarea>
+<button class="full">ارسال پیام</button>
+</form>
+
+<button id="leaveRoom" class="danger full">خروج از روم</button>
+</div>
+</div>
+
+<div class="panel">
+<h2>😎 استیکرها</h2>
+<div id="stickerGrid" class="sticker-grid"></div>
+</div>
+
+<div class="panel">
+<h2>😂 میم‌های چت بچه‌ها</h2>
+<div id="memeList" class="meme-grid"></div>
+</div>
+
+<div id="adminPanel" class="panel hidden">
+<h2>🛡️ مدیریت میم‌ها</h2>
+<form id="memeForm">
+<label>نام میم</label>
+<input id="memeTitle" maxlength="60" required>
+<label>آدرس تصویر</label>
+<input id="memeUrl" type="url" required>
+<button class="full">➕ افزودن میم</button>
+</form>
+</div>
+
+<div class="panel">
+<h3>🛡️ امنیت</h3>
+<p class="muted">
+اطلاعات شخصی و رمز عبورت رو منتشر نکن.
+</p>
+</div>
+
+</section>
 </main>
 
-<footer>چت بچه‌ها 💜</footer>
+<footer>ساخته‌شده با 💜</footer>
 
-<script>
+<!-- قسمت دوم را اینجا قرار بده -->
+  <script>
 "use strict";
 
-const SUPABASE_URL = "https://woiltlzexmovakoeteps.supabase.co";
-const SUPABASE_KEY = "sb_publishable_4fSCwF4-byicuolVU-CilA_aLexDpcA";
+const SUPABASE_URL =
+"https://woiltlzexmovakoeteps.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_4fSCwF4-byicuolVU-CilA_aLexDpcA";
 
 const $ = id => document.getElementById(id);
-const db = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
 
+let db = null;
 let currentUser = null;
 let currentProfile = null;
-let authMode = "login";
-let currentRoom = null;
-let privateUser = null;
-let chatMode = "room";
-let busy = false;
+let selectedRecipient = "";
+let activeRoomId = null;
+let memes = [];
+
+const avatars = ["😀","😎","🥳","🤩","🐱","🐼","🦊","🐸","🐻","👾"];
+const stickers = ["❤️","✌️","😅","😂","🔥","😍","😭","😎","🤝","💜"];
 
 function status(message) {
   $("status").textContent = message;
 }
 
-function errorText(error) {
+function explainError(error) {
   const m = String(error?.message || error || "");
-  if (/Invalid login credentials/i.test(m))
-    return "ایمیل یا رمز عبور اشتباه است.";
-  if (/User already registered/i.test(m))
-    return "این ایمیل قبلاً ثبت‌نام شده است.";
-  if (/email not confirmed/i.test(m))
-    return "تأیید ایمیل در تنظیمات Supabase فعال است.";
+
+  if (/Invalid API key/i.test(m))
+    return "کلید API معتبر نیست؛ کلید و آدرس پروژه را بررسی کن.";
+
+  if (/Failed to fetch|NetworkError/i.test(m))
+    return "خطای اینترنت یا اتصال به Supabase.";
+
   if (/row-level security|permission denied/i.test(m))
-    return "قوانین اجازه نمیدهند ،  سیاست‌های امنیتی را در نسخه های آینده درست میکنیم.";
+    return "دسترسی دیتابیس محدود شده است.";
+
   if (/does not exist|schema cache/i.test(m))
     return "جدول یا ستون موردنیاز پیدا نشد.";
-  if (/Failed to fetch|NetworkError/i.test(m))
-    return "خطای اتصال اینترنت یا Supabase.";
-  return m || "خطای نامشخص";
+
+  if (/Invalid login credentials/i.test(m))
+    return "ایمیل یا رمز عبور اشتباه است.";
+
+  return m;
 }
 
 function showApp(value) {
@@ -180,77 +190,613 @@ function showApp(value) {
   $("appPanel").classList.toggle("hidden", !value);
 }
 
+let authMode = "login";
+
 function showAuth(mode) {
   authMode = mode;
   $("nicknameWrap").classList.toggle("hidden", mode !== "signup");
   $("authSubmit").textContent =
     mode === "signup" ? "ساخت حساب" : "ورود";
-  $("showLogin").classList.toggle("secondary", mode !== "login");
-  $("showSignup").classList.toggle("secondary", mode !== "signup");
 }
 
 $("showLogin").onclick = () => showAuth("login");
 $("showSignup").onclick = () => showAuth("signup");
 
+function ensureClient() {
+  if (!window.supabase) {
+    throw new Error("کتابخانه Supabase بارگذاری نشده است.");
+  }
+
+  if (!db) {
+    db = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+  }
+}
+
 async function loadProfile(user, nickname = "") {
-  const {data,error} = await db
+  const { data, error } = await db
     .from("profiles")
-    .select("id,nickname,avatar_url")
-    .eq("id",user.id)
+    .select("id,nickname,is_admin")
+    .eq("id", user.id)
     .maybeSingle();
 
   if (error) throw error;
   if (data) return data;
 
-  const name = nickname || "کاربر" + user.id.slice(0,5);
-
-  const {data:created,error:insertError} = await db
+  const { data: created, error: insertError } = await db
     .from("profiles")
-    .insert({id:user.id,nickname:name})
-    .select("id,nickname,avatar_url")
+    .insert({
+      id: user.id,
+      nickname: nickname || "کاربر"
+    })
+    .select("id,nickname,is_admin")
     .single();
 
   if (insertError) throw insertError;
   return created;
 }
 
-function setAvatar(url) {
-  $("myAvatar").src = url ||
-    "https://placehold.co/100x100/302543/ffffff?text=User";
+function renderAvatars() {
+  const grid = $("avatarGrid");
+  grid.replaceChildren();
+
+  avatars.forEach(emoji => {
+    const button = document.createElement("button");
+    button.textContent = emoji;
+
+    button.onclick = () => {
+      localStorage.setItem("avatar_" + currentUser.id, emoji);
+      $("myAvatar").textContent = emoji;
+      status("آواتار تغییر کرد 💜");
+    };
+
+    grid.appendChild(button);
+  });
+
+  $("myAvatar").textContent =
+    localStorage.getItem("avatar_" + currentUser.id) || "😀";
 }
 
-async function enterApp(user,nickname = "") {
+async function enterApp(user, nickname = "") {
   currentUser = user;
   showApp(true);
   status("در حال بارگذاری حساب...");
 
   try {
-    currentProfile = await loadProfile(user,nickname);
+    currentProfile = await loadProfile(user, nickname);
+
     $("myNickname").textContent = currentProfile.nickname;
-    setAvatar(currentProfile.avatar_url);
-    await loadRooms();
+
+    $("adminPanel").classList.toggle(
+      "hidden",
+      currentProfile.is_admin !== true
+    );
+
+    renderAvatars();
+    renderStickers();
+
     await loadProfiles();
-    status("خوش اومدی 💜");
-  } catch(error) {
-    status("خطا: " + errorText(error));
+    await loadRooms();
+    await loadMemes();
+
+    status("خوش اومدی! 💜");
+  } catch (error) {
+    status(explainError(error));
   }
 }
 
-async function leaveApp() {
+$("authForm").addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const email = $("email").value.trim();
+  const password = $("password").value;
+  const nickname = $("nickname").value.trim();
+
+  $("authSubmit").disabled = true;
+
+  try {
+    ensureClient();
+
+    if (authMode === "signup") {
+      if (nickname.length < 2) {
+        throw new Error("نام نمایشی حداقل ۲ حرف باشد.");
+      }
+
+      const { data, error } = await db.auth.signUp({
+        email,
+        password
+      });
+
+      if (error) throw error;
+
+      if (!data.session) {
+        status("حساب ساخته شد؛ وضعیت تأیید ایمیل را بررسی کن.");
+        return;
+      }
+
+      await enterApp(data.user, nickname);
+    } else {
+      const { data, error } = await db.auth.signInWithPassword({
+        email,
+        password
+      });
+
+      if (error) throw error;
+      await enterApp(data.user);
+    }
+  } catch (error) {
+    status(explainError(error));
+  } finally {
+    $("authSubmit").disabled = false;
+  }
+});
+
+$("logout").onclick = async () => {
+  const { error } = await db.auth.signOut();
+
+  if (error) {
+    status(explainError(error));
+    return;
+  }
+
   currentUser = null;
   currentProfile = null;
-  currentRoom = null;
-  privateUser = null;
-  chatMode = "room";
-  $("chatBox").replaceChildren();
-  $("roomsList").replaceChildren();
-  $("usersList").replaceChildren();
+  selectedRecipient = "";
+  activeRoomId = null;
+
   showApp(false);
+  status("از حساب خارج شدی.");
+};
+
+async function loadProfiles() {
+  const { data, error } = await db
+    .from("profiles")
+    .select("id,nickname")
+    .order("nickname")
+    .limit(100);
+
+  if (error) throw error;
+
+  const select = $("recipient");
+  select.replaceChildren();
+
+  const option = document.createElement("option");
+  option.value = "";
+  option.textContent = "انتخاب کاربر";
+  select.appendChild(option);
+
+  (data || []).filter(p => p.id !== currentUser.id)
+    .forEach(p => {
+      const o = document.createElement("option");
+      o.value = p.id;
+      o.textContent = p.nickname;
+      select.appendChild(o);
+    });
 }
+
+$("recipient").onchange = () => {
+  selectedRecipient = $("recipient").value;
+  loadMessages();
+};
+
+function renderMessage(box, message, nickname) {
+  const item = document.createElement("div");
+  item.className = "message";
+
+  const author = document.createElement("small");
+  author.textContent = nickname;
+
+  const body = document.createElement("p");
+
+  if (message.body.startsWith("STICKER:")) {
+    body.textContent = message.body.slice(8);
+  } else if (message.body.startsWith("MEME:")) {
+    const meme = memes.find(
+      m => String(m.id) === message.body.slice(5)
+    );
+
+    if (meme) {
+      const img = document.createElement("img");
+      img.src = meme.image_path;
+      img.alt = meme.title;
+      img.className = "sent-meme";
+      item.append(author, img);
+      box.appendChild(item);
+      return;
+    }
+
+    body.textContent = "میم پیدا نشد.";
+  } else {
+    body.textContent = message.body;
+  }
+
+  item.append(author, body);
+  box.appendChild(item);
+}
+
+async function loadMessages() {
+  if (!currentUser || !selectedRecipient) {
+    $("chatBox").textContent = "یک کاربر انتخاب کن.";
+    return;
+  }
+
+  try {
+    const { data, error } = await db
+      .from("messages")
+      .select("id,user_id,body,created_at,recipient_id")
+      .is("room_id", null)
+      .order("created_at")
+      .limit(200);
+
+    if (error) throw error;
+
+    const messages = (data || []).filter(m =>
+      (m.user_id === currentUser.id &&
+       m.recipient_id === selectedRecipient) ||
+      (m.user_id === selectedRecipient &&
+       m.recipient_id === currentUser.id)
+    );
+
+    const ids = [...new Set(messages.map(m => m.user_id))];
+    let names = {};
+
+    if (ids.length) {
+      const { data: people, error: peopleError } = await db
+        .from("profiles")
+        .select("id,nickname")
+        .in("id", ids);
+
+      if (peopleError) throw peopleError;
+      (people || []).forEach(p => names[p.id] = p.nickname);
+    }
+
+    const box = $("chatBox");
+    box.replaceChildren();
+
+    messages.forEach(m =>
+      renderMessage(box, m, names[m.user_id] || "کاربر")
+    );
+
+    if (!messages.length) box.textContent = "هنوز پیامی نیست.";
+
+  } catch (error) {
+    status(explainError(error));
+  }
+}
+
+async function sendMessage(body, roomId = null) {
+  const recipientId = roomId ? null : selectedRecipient;
+
+  if (!roomId && !recipientId) {
+    throw new Error("ابتدا یک کاربر انتخاب کن.");
+  }
+
+  const { error } = await db.from("messages").insert({
+    user_id: currentUser.id,
+    body,
+    recipient_id: recipientId,
+    room_id: roomId
+  });
+
+  if (error) throw error;
+
+  if (roomId) await loadRoomMessages();
+  else await loadMessages();
+}
+
+$("messageForm").onsubmit = async event => {
+  event.preventDefault();
+
+  try {
+    const body = $("messageInput").value.trim();
+    if (!body) return;
+
+    await sendMessage(body);
+    $("messageInput").value = "";
+    status("پیام ارسال شد 💜");
+  } catch (error) {
+    status(explainError(error));
+  }
+};
+
+function renderStickers() {
+  const grid = $("stickerGrid");
+  grid.replaceChildren();
+
+  stickers.forEach(emoji => {
+    const button = document.createElement("button");
+    button.textContent = emoji;
+
+    button.onclick = async () => {
+      try {
+        await sendMessage(
+          "STICKER:" + emoji,
+          activeRoomId
+        );
+      } catch (error) {
+        status(explainError(error));
+      }
+    };
+
+    grid.appendChild(button);
+  });
+}
+
+async function loadRooms() {
+  const { data, error } = await db
+    .from("chat_rooms")
+    .select("id,name,created_by")
+    .order("created_at", { ascending: false });
+
+  if (error) throw error;
+
+  const { data: memberships, error: memberError } = await db
+    .from("chat_room_members")
+    .select("room_id")
+    .eq("user_id", currentUser.id);
+
+  if (memberError) throw memberError;
+
+  const joined = new Set(
+    (memberships || []).map(m => String(m.room_id))
+  );
+
+  const list = $("roomsList");
+  list.replaceChildren();
+
+  (data || []).forEach(room => {
+    const item = document.createElement("div");
+    item.className = "room-item";
+
+    const name = document.createElement("span");
+    name.textContent = "🏠 " + room.name;
+
+    const button = document.createElement("button");
+
+    button.textContent = joined.has(String(room.id))
+      ? "ورود به روم" : "عضویت";
+
+    button.onclick = async () => {
+      try {
+        if (!joined.has(String(room.id))) {
+          const { error } = await db
+            .from("chat_room_members")
+            .insert({
+              room_id: room.id,
+              user_id: currentUser.id
+            });
+
+          if (error) throw error;
+        }
+
+        await openRoom(room);
+        await loadRooms();
+      } catch (error) {
+        status(explainError(error));
+      }
+    };
+
+    item.append(name, button);
+    list.appendChild(item);
+  });
+
+  if (!data?.length) list.textContent = "هنوز رومی وجود ندارد.";
+}
+
+$("createRoomForm").onsubmit = async event => {
+  event.preventDefault();
+
+  try {
+    const name = $("roomName").value.trim();
+
+    const { data, error } = await db
+      .from("chat_rooms")
+      .insert({
+        name,
+        created_by: currentUser.id
+      })
+      .select("id,name,created_by")
+      .single();
+
+    if (error) throw error;
+
+    const { error: joinError } = await db
+      .from("chat_room_members")
+      .insert({
+        room_id: data.id,
+        user_id: currentUser.id
+      });
+
+    if (joinError) throw joinError;
+
+    $("roomName").value = "";
+    await openRoom(data);
+    await loadRooms();
+
+    status("روم ساخته شد 🎉");
+  } catch (error) {
+    status(explainError(error));
+  }
+};
+
+async function openRoom(room) {
+  activeRoomId = room.id;
+  selectedRecipient = "";
+
+  $("recipient").value = "";
+  $("activeRoom").classList.remove("hidden");
+  $("activeRoomName").textContent = "🏠 " + room.name;
+
+  await loadRoomMessages();
+}
+
+async function loadRoomMessages() {
+  if (!activeRoomId) return;
+
+  const { data, error } = await db
+    .from("messages")
+    .select("id,user_id,body,created_at")
+    .eq("room_id", activeRoomId)
+    .order("created_at")
+    .limit(200);
+
+  if (error) {
+    status(explainError(error));
+    return;
+  }
+
+  const ids = [...new Set((data || []).map(m => m.user_id))];
+  let names = {};
+
+  if (ids.length) {
+    const { data: people, error: peopleError } = await db
+      .from("profiles")
+      .select("id,nickname")
+      .in("id", ids);
+
+    if (peopleError) throw peopleError;
+    (people || []).forEach(p => names[p.id] = p.nickname);
+  }
+
+  const box = $("roomMessages");
+  box.replaceChildren();
+
+  (data || []).forEach(m =>
+    renderMessage(box, m, names[m.user_id] || "کاربر")
+  );
+
+  if (!data?.length) box.textContent = "اولین پیام روم رو بفرست!";
+}
+
+$("roomMessageForm").onsubmit = async event => {
+  event.preventDefault();
+
+  try {
+    const body = $("roomMessageInput").value.trim();
+    if (!body || !activeRoomId) return;
+
+    await sendMessage(body, activeRoomId);
+    $("roomMessageInput").value = "";
+  } catch (error) {
+    status(explainError(error));
+  }
+};
+
+$("leaveRoom").onclick = async () => {
+  try {
+    const { error } = await db
+      .from("chat_room_members")
+      .delete()
+      .eq("room_id", activeRoomId)
+      .eq("user_id", currentUser.id);
+
+    if (error) throw error;
+
+    activeRoomId = null;
+    $("activeRoom").classList.add("hidden");
+    await loadRooms();
+  } catch (error) {
+    status(explainError(error));
+  }
+};
+
+async function loadMemes() {
+  const { data, error } = await db
+    .from("memes")
+    .select("id,title,image_path,created_by")
+    .order("created_at", { ascending: false });
+
+  if (error) throw error;
+
+  memes = data || [];
+  renderMemes();
+}
+
+function renderMemes() {
+  const list = $("memeList");
+  list.replaceChildren();
+
+  memes.forEach(meme => {
+    const card = document.createElement("div");
+    card.className = "meme-card";
+
+    const img = document.createElement("img");
+    img.src = meme.image_path;
+    img.alt = meme.title;
+
+    const title = document.createElement("p");
+    title.textContent = meme.title;
+
+    const button = document.createElement("button");
+    button.textContent = "ارسال میم";
+
+    button.onclick = async () => {
+      try {
+        await sendMessage(
+          "MEME:" + meme.id,
+          activeRoomId
+        );
+      } catch (error) {
+        status(explainError(error));
+      }
+    };
+
+    card.append(img, title, button);
+    list.appendChild(card);
+  });
+
+  if (!memes.length) list.textContent = "هنوز میمی ثبت نشده.";
+}
+
+$("memeForm").onsubmit = async event => {
+  event.preventDefault();
+
+  if (currentProfile?.is_admin !== true) {
+    status("اجازه افزودن میم نداری.");
+    return;
+  }
+
+  try {
+    const { error } = await db.from("memes").insert({
+      title: $("memeTitle").value.trim(),
+      image_path: $("memeUrl").value.trim(),
+      created_by: currentUser.id
+    });
+
+    if (error) throw error;
+
+    $("memeTitle").value = "";
+    $("memeUrl").value = "";
+
+    await loadMemes();
+    status("میم اضافه شد 😂");
+  } catch (error) {
+    status(explainError(error));
+  }
+};
+
+$("refreshChat").onclick = async () => {
+  try {
+    await loadProfiles();
+    await loadMessages();
+    await loadRooms();
+    await loadMemes();
+
+    if (activeRoomId) await loadRoomMessages();
+
+    status("تازه‌سازی انجام شد 💜");
+  } catch (error) {
+    status(explainError(error));
+  }
+};
 
 async function init() {
   try {
-    const {data,error} = await db.auth.getSession();
+    ensureClient();
+
+    const { data, error } = await db.auth.getSession();
     if (error) throw error;
 
     if (data.session?.user) {
@@ -259,480 +805,28 @@ async function init() {
       showApp(false);
       status("وارد شو یا حساب بساز 💜");
     }
-  } catch(error) {
-    status("خطای اتصال: " + errorText(error));
-  }
-}
 
-$("authForm").onsubmit = async event => {
-  event.preventDefault();
-
-  const email = $("email").value.trim();
-  const password = $("password").value;
-  const nickname = $("nickname").value.trim();
-
-  if (authMode === "signup" && nickname.length < 2) {
-    status("نام نمایشی باید حداقل ۲ حرف باشد.");
-    return;
-  }
-
-  $("authSubmit").disabled = true;
-  status("در حال بررسی حساب...");
-
-  try {
-    if (authMode === "signup") {
-      const {data,error} = await db.auth.signUp({
-        email,password
-      });
-      if (error) throw error;
-
-      if (!data.session) {
-        status("حساب ساخته شد؛ وضعیت تأیید ایمیل را بررسی کن.");
-        return;
+    db.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_OUT") {
+        currentUser = null;
+        currentProfile = null;
+        showApp(false);
+        status("از حساب خارج شدی.");
       }
-      await enterApp(data.user,nickname);
-    } else {
-      const {data,error} = await db.auth.signInWithPassword({
-        email,password
-      });
-      if (error) throw error;
-      await enterApp(data.user);
-    }
-  } catch(error) {
-    status("خطای حساب: " + errorText(error));
-  } finally {
-    $("authSubmit").disabled = false;
-  }
-};
 
-$("logout").onclick = async () => {
-  try {
-    const {error} = await db.auth.signOut();
-    if (error) throw error;
-    await leaveApp();
-    status("از حساب خارج شدی.");
-  } catch(error) {
-    status(errorText(error));
-  }
-};
-
-/* PROFILE PHOTO */
-
-$("avatarInput").onchange = async () => {
-  const file = $("avatarInput").files[0];
-  if (!file || !currentUser) return;
-
-  const allowed = ["image/jpeg","image/png","image/webp"];
-  if (!allowed.includes(file.type)) {
-    status("فقط عکس JPG، PNG یا WEBP مجاز است.");
-    return;
-  }
-
-  if (file.size > 3 * 1024 * 1024) {
-    status("حجم عکس باید کمتر از ۳ مگابایت باشد.");
-    return;
-  }
-
-  status("در حال آپلود عکس...");
-
-  try {
-    const ext = file.type === "image/png" ? "png" :
-      file.type === "image/webp" ? "webp" : "jpg";
-
-    const path = currentUser.id + "/avatar." + ext;
-
-    const {error:uploadError} = await db.storage
-      .from("avatars")
-      .upload(path,file,{upsert:true,contentType:file.type});
-
-    if (uploadError) throw uploadError;
-
-    const {data} = db.storage.from("avatars").getPublicUrl(path);
-    const url = data.publicUrl + "?v=" + Date.now();
-
-    const {error:updateError} = await db
-      .from("profiles")
-      .update({avatar_url:url})
-      .eq("id",currentUser.id);
-
-    if (updateError) throw updateError;
-
-    currentProfile.avatar_url = url;
-    setAvatar(url);
-    status("عکس پروفایل ذخیره شد! 💜");
-  } catch(error) {
-    status("خطای آپلود: " + errorText(error));
-  } finally {
-    $("avatarInput").value = "";
-  }
-};
-
-/* ROOMS */
-
-async function loadRooms() {
-  if (!currentUser) return;
-
-  const list = $("roomsList");
-  list.textContent = "در حال بارگذاری روم‌ها...";
-
-  try {
-    const {data:rooms,error} = await db
-      .from("chat_rooms")
-      .select("id,name,created_by,created_at")
-      .order("created_at",{ascending:false})
-      .limit(100);
-
-    if (error) throw error;
-
-    const {data:members,error:memberError} = await db
-      .from("chat_room_members")
-      .select("room_id,user_id");
-
-    if (memberError) throw memberError;
-
-    const memberIds = new Set(
-      (members || [])
-        .filter(m => m.user_id === currentUser.id)
-        .map(m => String(m.room_id))
-    );
-
-    list.replaceChildren();
-
-    if (!rooms?.length) {
-      list.textContent = "هنوز چت‌رومی ساخته نشده.";
-      return;
-    }
-
-    rooms.forEach(room => {
-      const item = document.createElement("div");
-      item.className = "room-item";
-
-      const info = document.createElement("div");
-      info.className = "room-info";
-
-      const name = document.createElement("strong");
-      name.textContent = "🏠 " + room.name;
-
-      const detail = document.createElement("small");
-      detail.textContent = "شناسه روم: " + room.id;
-
-      info.append(name,detail);
-
-      const button = document.createElement("button");
-      const joined = memberIds.has(String(room.id));
-
-      button.textContent = joined ? "ورود به روم" : "عضویت";
-      button.className = joined ? "secondary" : "";
-
-      button.onclick = async () => {
-        if (joined) {
-          await openRoom(room);
-        } else {
-          await joinRoom(room);
-        }
-      };
-
-      item.append(info,button);
-      list.appendChild(item);
-    });
-  } catch(error) {
-    list.textContent = "خطا: " + errorText(error);
-  }
-}
-
-$("createRoomForm").onsubmit = async event => {
-  event.preventDefault();
-
-  const name = $("roomName").value.trim();
-  if (name.length < 2 || name.length > 40) {
-    status("نام روم باید بین ۲ تا ۴۰ حرف باشد.");
-    return;
-  }
-
-  $("createRoomButton").disabled = true;
-  status("در حال ساخت روم...");
-
-  try {
-    const {data:room,error} = await db
-      .from("chat_rooms")
-      .insert({
-        name,
-        created_by:currentUser.id
-      })
-      .select("id,name,created_by,created_at")
-      .single();
-
-    if (error) throw error;
-
-    const {error:joinError} = await db
-      .from("chat_room_members")
-      .insert({
-        room_id:room.id,
-        user_id:currentUser.id
-      });
-
-    if (joinError) throw joinError;
-
-    $("roomName").value = "";
-    await loadRooms();
-    await openRoom(room);
-    status("چت‌روم ساخته شد! 🎉");
-  } catch(error) {
-    status("خطای ساخت روم: " + errorText(error));
-  } finally {
-    $("createRoomButton").disabled = false;
-  }
-};
-
-async function joinRoom(room) {
-  try {
-    const {error} = await db
-      .from("chat_room_members")
-      .insert({
-        room_id:room.id,
-        user_id:currentUser.id
-      });
-
-    if (error && !/duplicate key/i.test(error.message)) {
-      throw error;
-    }
-
-    await loadRooms();
-    await openRoom(room);
-    status("به روم پیوستی! 💜");
-  } catch(error) {
-    status("خطای عضویت: " + errorText(error));
-  }
-}
-
-async function openRoom(room) {
-  currentRoom = room;
-  privateUser = null;
-  chatMode = "room";
-
-  $("chatTitle").textContent = "🏠 " + room.name;
-  $("messageInput").disabled = false;
-  $("sendButton").disabled = false;
-
-  await loadMessages();
-}
-
-$("refreshRooms").onclick = loadRooms;
-
-/* USERS AND PRIVATE CHAT */
-
-async function loadProfiles() {
-  const {data,error} = await db
-    .from("profiles")
-    .select("id,nickname,avatar_url")
-    .order("nickname")
-    .limit(100);
-
-  if (error) throw error;
-
-  const list = $("usersList");
-  list.replaceChildren();
-
-  const profiles = (data || []).filter(
-    p => p.id !== currentUser.id
-  );
-
-  if (!profiles.length) {
-    list.textContent = "هنوز کاربر دیگری وجود ندارد.";
-    return;
-  }
-
-  profiles.forEach(profile => {
-    const item = document.createElement("div");
-    item.className = "userItem";
-
-    const info = document.createElement("div");
-    info.className = "user-info";
-
-    const avatar = document.createElement("img");
-    avatar.className = "avatar small-avatar";
-    avatar.src = profile.avatar_url ||
-      "https://placehold.co/80x80/302543/ffffff?text=User";
-
-    const name = document.createElement("strong");
-    name.textContent = profile.nickname;
-
-    info.append(avatar,name);
-
-    const button = document.createElement("button");
-    button.textContent = "پیام خصوصی";
-    button.onclick = () => openPrivate(profile);
-
-    item.append(info,button);
-    list.appendChild(item);
-  });
-}
-
-async function openPrivate(profile) {
-  privateUser = profile;
-  currentRoom = null;
-  chatMode = "private";
-
-  $("privateTitle").textContent =
-    "🔒 گفت‌وگو با " + profile.nickname;
-  $("chatTitle").textContent =
-    "🔒 گفت‌وگوی خصوصی با " + profile.nickname;
-
-  $("messageInput").disabled = false;
-  $("sendButton").disabled = false;
-
-  await loadMessages();
-}
-
-$("backRooms").onclick = () => {
-  chatMode = "room";
-  privateUser = null;
-  currentRoom = null;
-
-  $("chatTitle").textContent = "یک چت‌روم انتخاب کن.";
-  $("messageInput").disabled = true;
-  $("sendButton").disabled = true;
-  $("chatBox").textContent = "برای شروع، یک روم انتخاب کن.";
-};
-
-/* MESSAGES */
-
-async function loadMessages() {
-  if (!currentUser || busy) return;
-  if (chatMode === "room" && !currentRoom) return;
-  if (chatMode === "private" && !privateUser) return;
-
-  busy = true;
-
-  try {
-    let query = db.from("messages")
-      .select("id,body,created_at,user_id,recipient_id,room_id");
-
-    if (chatMode === "room") {
-      query = query.eq("room_id",currentRoom.id);
-    } else {
-      const other = privateUser.id;
-      query = query.is("room_id",null)
-        .or(
-          "and(user_id.eq." + currentUser.id +
-          ",recipient_id.eq." + other + ")," +
-          "and(user_id.eq." + other +
-          ",recipient_id.eq." + currentUser.id + ")"
-        );
-    }
-
-    const {data:messages,error} = await query
-      .order("created_at",{ascending:true})
-      .limit(200);
-
-    if (error) throw error;
-
-    const ids = [...new Set(
-      (messages || []).map(m => m.user_id)
-    )];
-
-    let names = {};
-    if (ids.length) {
-      const {data:people,error:peopleError} = await db
-        .from("profiles")
-        .select("id,nickname,avatar_url")
-        .in("id",ids);
-
-      if (peopleError) throw peopleError;
-      (people || []).forEach(p => {
-        names[p.id] = p;
-      });
-    }
-
-    const box = $("chatBox");
-    box.replaceChildren();
-
-    if (!messages?.length) {
-      box.textContent = "هنوز پیامی وجود ندارد. اولین پیام رو بفرست! 💜";
-      return;
-    }
-
-    messages.forEach(message => {
-      const item = document.createElement("div");
-      item.className = "message" +
-        (message.user_id === currentUser.id ? " mine" : "");
-
-      const author = document.createElement("div");
-      author.className = "message-author";
-
-      const person = names[message.user_id] || {};
-      const avatar = document.createElement("img");
-      avatar.className = "avatar message-avatar";
-      avatar.src = person.avatar_url ||
-        "https://placehold.co/60x60/302543/ffffff?text=U";
-
-      const name = document.createElement("strong");
-      name.textContent = person.nickname || "کاربر";
-
-      author.append(avatar,name);
-
-      const body = document.createElement("p");
-      body.textContent = message.body;
-
-      const date = document.createElement("small");
-      date.textContent = message.created_at
-        ? new Date(message.created_at).toLocaleString("fa-IR")
-        : "";
-
-      item.append(author,body,date);
-      box.appendChild(item);
+      if (event === "SIGNED_IN" && session?.user && !currentUser) {
+        setTimeout(() => enterApp(session.user), 0);
+      }
     });
 
-    box.scrollTop = box.scrollHeight;
-  } catch(error) {
-    $("chatBox").textContent = "خطا: " + errorText(error);
-  } finally {
-    busy = false;
+  } catch (error) {
+    showApp(false);
+    status("خطای اتصال: " + explainError(error));
   }
 }
-
-$("messageForm").onsubmit = async event => {
-  event.preventDefault();
-
-  const body = $("messageInput").value.trim();
-  if (!body || !currentUser) return;
-
-  const row = {
-    user_id:currentUser.id,
-    body
-  };
-
-  if (chatMode === "room" && currentRoom) {
-    row.room_id = currentRoom.id;
-    row.recipient_id = null;
-  } else if (chatMode === "private" && privateUser) {
-    row.room_id = null;
-    row.recipient_id = privateUser.id;
-  } else {
-    status("اول یک روم یا کاربر انتخاب کن.");
-    return;
-  }
-
-  $("sendButton").disabled = true;
-
-  try {
-    const {error} = await db.from("messages").insert(row);
-    if (error) throw error;
-
-    $("messageInput").value = "";
-    await loadMessages();
-    status("پیام ارسال شد 💜");
-  } catch(error) {
-    status("خطای ارسال: " + errorText(error));
-  } finally {
-    $("sendButton").disabled = false;
-  }
-};
-
-$("refreshChat").onclick = loadMessages;
 
 init();
 </script>
+
 </body>
 </html>
-
